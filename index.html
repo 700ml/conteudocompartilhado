@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Documentos Compartilhados</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, 
+			minimum-scale=1, maximum-scale=1">
+        <link rel="stylesheet" href="dist/css/swiper.min.css">
+        <link rel="stylesheet" href="dist/css/introjs.min.css">
+		<style>
+			html, body {
+    			position: relative;
+    			height: 100%;
+			}
+			body {
+    			background: #fff;
+    			font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+    			font-size: 14px;
+    			color:#000;
+    			margin: 0;
+    			padding: 0;
+			}
+			.swiper-container {
+    			width: 100%;
+    			height: 100%;
+			}
+			.swiper-slide {
+    			font-size: 18px;
+    			height: auto;
+    			-webkit-box-sizing: border-box;
+    			box-sizing: border-box;
+    			padding: 0;
+    			background-color: #bbb;
+			}
+
+			.swiper-container-h > .swiper-wrapper > .swiper-slide {
+				width: 100vw;
+			}
+
+			.swiper-slide img {
+				width: 100%;
+				height: auto;
+			}
+
+			.seadragonviewer{
+                background-color:#ddd;
+                width:100vw;
+                height: 100%;
+            }
+
+            .comment5-0, #comment {
+               position: absolute;
+               height:40%;
+               width:70%;
+               top:30%;
+               left:15%;
+            }
+            .introjs-helperLayer {
+                background-color: transparent;
+                box-shadow: 0 0 0 100vw rgba(0,0,0,0.5)
+            }
+            .introjs-overlay {
+                /*display: none;*/
+/*                background: -webkit-gradient(radial,center center,0px,center center,100%,color-stop(0%,rgba(0,0,0,0.4)),color-stop(100%,rgba(0,0,0,0.9)));
+                background: -webkit-radial-gradient(center,circle cover,rgba(0,0,0,0.0) 5%,rgba(0,0,0,0.3) 30%);
+                background: -moz-radial-gradient(center,circle cover,rgba(0,0,0,0) 5%,rgba(0,0,0,0.9) 30%);
+                background: -ms-radial-gradient(center,circle cover,rgba(0,0,0,0) 5%,rgba(0,0,0,0.9) 30%);
+                background: -o-radial-gradient(center,circle cover,rgba(0,0,0,0) 5%,rgba(0,0,0,0.9) 30%);
+                background: radial-gradient(center,circle cover,rgba(0,0,0,0) 5%,rgba(0,0,0,0.9) 30%);*/
+            }
+
+            .introjs-overlay {
+
+                /*background-image:
+                    linear-gradient(
+                    to top, 
+                    rgba(0,0,0,0.9) ,
+                    rgba(0,0,0,0.9)  15%,
+                    transparent 15%,
+                    transparent 85%,
+                    rgba(0,0,0,0.9)  85%
+                );*/
+                background: transparent;
+
+                /*-webkit-box-shadow: inset 0 0 0em 3em rgba(0,0,0,0.6);
+                box-shadow: inset 0 0 0em 3em rgba(0,0,0,0.6);*/
+            }
+
+            .introjs-helperNumberLayer {
+                position: absolute;
+                visibility: visible;
+                top: -16px;
+                left: -16px;
+                z-index: 9999999999!important;
+                padding: 2px;
+                font-family: Arial,verdana,tahoma;
+                font-size: 13px;
+                font-weight: bold;
+                color: white;
+                text-align: center;
+                text-shadow: 1px 1px 1px rgba(0,0,0,.3);
+                background: #ff3019;
+                background: -webkit-linear-gradient(top,#ff3019 0,#cf0404 100%);
+                background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#ff3019),color-stop(100%,#cf0404));
+                background: -moz-linear-gradient(top,#ff3019 0,#cf0404 100%);
+                background: -ms-linear-gradient(top,#ff3019 0,#cf0404 100%);
+                background: -o-linear-gradient(top,#ff3019 0,#cf0404 100%);
+                background: linear-gradient(to bottom,#ff3019 0,#cf0404 100%);
+                width: 20px;
+                height: 20px;
+                line-height: 20px;
+                border: 3px solid white;
+                border-radius: 50%;
+                filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff3019', endColorstr='#cf0404', GradientType=0)";
+                filter: "progid:DXImageTransform.Microsoft.Shadow(direction=135, strength=2, color=ff0000)";
+                box-shadow: 0 2px 5px rgba(0,0,0,.4);
+            }
+
+            .badge {
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
+
+            .splash {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                z-index: 2;
+                background: rgba(0,0,0,0.5);
+            }
+
+            .hidden {
+                display: none;
+            }
+
+		</style>
+	</head>
+	<body>
+        <div class="splash"></div>
+		<div class="swiper-container swiper-container-h">
+			<div class="swiper-wrapper"></div>
+			<div class="swiper-pagination"></div>
+			<div class="swiper-button-next"></div>
+			<div class="swiper-button-prev"></div>
+		</div>
+        <a
+        onclick="dismiss()"
+        data-intro=''
+        id="comment"></a>
+    </body>
+    <script src="dist/js/swiper.min.js"></script>
+    <script src="dist/js/intro.min.js"></script>
+    <script src="dist/js/openseadragon.js"></script>
+    <script type="text/javascript">
+
+        var message = [],
+            images = [],
+            maxZoom = window.innerWidth < 768? 3 : 2,
+            slideNum = 15,
+            introActive = false;
+
+        message[2] = {
+            desc:"Contexto Acerca do Homicídio",
+            x:0.4250471734349209, y:0.896704514347228,
+            zoom: 0.9*maxZoom
+        };
+        message[5] = {
+            desc:"Contexto Acerca do Suicídio",
+            x:0.2461964038727526, y:0.5760719225449514,
+            zoom: 1*maxZoom
+        };
+
+        function createElement(tag,_options) {
+            var options = {
+                classes: _options.classes || [],
+                id: _options.id || undefined,
+                children: _options.children || []
+            };
+            var el = document.createElement(tag);
+            for(var i = 0; i < options.classes.length; i++) {
+                el.classList.add(options.classes[i]);
+            }
+            for(var i = 0; i < options.children.length; i++) {
+                el.appendChild(options.children[i]);
+            }
+            if(options.id)
+                el.id=options.id;
+            return el;
+        }
+
+        var SW = document
+        .getElementsByClassName('swiper-container-h')[0]
+        .getElementsByClassName('swiper-wrapper')[0];
+
+        for(var i =0;i<slideNum;i++){
+
+            var viewer = createElement(
+                'div', {
+                    classes: ['seadragonviewer'],
+                    id: "seadragon-viewer"+i
+                }
+            );
+            var slide = createElement(
+                'div', {
+                    classes: ['swiper-slide'],
+                    children: [viewer]
+                }
+            );
+           
+            var badge=createElement('span',{
+                classes: [
+                'introjs-helperNumberLayer',
+                'badge',
+                'badge'+i
+                ]});
+
+            badge.onclick=doo;
+
+            if(message[i])
+                slide.appendChild(badge);
+
+            SW.appendChild(slide);
+
+            images.push(OpenSeadragon({
+                navigationControlAnchor: OpenSeadragon.ControlAnchor.ABSOLUTE,
+                tileSources: "content3/"+i+"/GeneratedImages/dzc_output.xml",
+                prefixUrl: "content3/"+i+"/img/",
+                id: "seadragon-viewer"+i,
+                autoHideControls: false,
+                maxZoomLevel: maxZoom,
+                defaultZoomLevel: 0,
+                zoomPerScroll: 1.15,
+                zoomPerClick: 1.15,
+
+                //tileSources: images[i],
+                //useCanvas: false,
+            }));
+        }
+
+        var swiper = new Swiper('.swiper-container-h', {
+            nextButton: '.swiper-button-next',
+            prevButton: '.swiper-button-prev',
+            pagination: '.swiper-pagination',
+            paginationClickable: true,
+            mousewheelControl: false,
+            grabCursor: true,
+            freeMode: false,
+            threshold: 30,
+            hashnav: true
+        });
+
+        function getStatus() {
+            var x = images[swiper.activeIndex].viewport;
+            return [x.centerSpringX.target.value,
+                x.centerSpringY.target.value,
+                x.zoomSpring.target.value];
+        }
+
+    	document.onkeydown = function(evt) {
+    	    evt = evt || window.event;
+    	    if (evt.keyCode == 32) { //' '
+                if(!introActive)
+        			doo();
+    	    }
+    	    if (evt.keyCode == 73) { //'i'
+    			console.log(getStatus);
+    	    }
+    	};
+        function doo() {
+
+    		var i = swiper.activeIndex;
+            var st = getStatus();
+
+    		if(message[i]){
+
+        		images[i]
+        		.viewport
+        		.panTo(new OpenSeadragon.Point(message[i].x,message[i].y))
+        		.zoomTo(message[i].zoom);
+
+        		document
+        		.getElementById("comment")
+        		.setAttribute('data-intro',message[i].desc);
+
+        		introJs()
+                .start()
+                .onexit(function() {
+                    introActive = false;
+                    images[i]
+                    .viewport
+                    .panTo(new OpenSeadragon.Point(st[0],st[1]))
+                    .zoomTo(st[2]);
+                });
+
+    		}
+        }
+
+        function startup (e) {
+            document
+            .getElementsByClassName('splash')[0]
+            .classList
+            .add('hidden');
+        }
+
+        /*window.onload = function(){
+             console.log(document.readyState);
+        }*/
+       // document.addEventListener("DOMContentLoaded", startup, false);
+
+        document.onreadystatechange = function(){
+            if ( document.readyState === "complete" ) {
+                startup();
+            }
+        };
+
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-81213033-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+</html>
