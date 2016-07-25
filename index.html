@@ -48,7 +48,7 @@
                 height: 100%;
             }
 
-            .comment5-0, #comment {
+            .comment5-0, #comment, .comment {
                position: absolute;
                height:40%;
                width:70%;
@@ -146,10 +146,6 @@
 			<div class="swiper-button-next"></div>
 			<div class="swiper-button-prev"></div>
 		</div>
-        <a
-        onclick="dismiss()"
-        data-intro=''
-        id="comment"></a>
     </body>
     <script src="dist/js/swiper.min.js"></script>
     <script src="dist/js/intro.min.js"></script>
@@ -162,16 +158,29 @@
             slideNum = 15,
             introActive = false;
 
-        message[2] = {
+        message[2] = [{
             desc:"Contexto Acerca do Homicídio",
             x:0.4250471734349209, y:0.896704514347228,
             zoom: 0.9*maxZoom
-        };
-        message[5] = {
+        },{
+            desc:"Contexto Acerca do Homicídio",
+            x:0.2461964038727526, y:0.5760719225449514,
+            zoom: 0.9*maxZoom
+        },{
+            desc:"Contexto Acerca do Homicídio",
+            x:0.4250471734349209, y:0.896704514347228,
+            zoom: 0.9*maxZoom
+        }];
+        message[5] = [{
             desc:"Contexto Acerca do Suicídio",
             x:0.2461964038727526, y:0.5760719225449514,
             zoom: 1*maxZoom
-        };
+        }];
+        message[7] = [{
+            desc:"Contexto Acerca dos Filhos",
+            x:0.30357585536229703, y:0.9234978375952693,
+            zoom: 1*maxZoom
+        }];
 
         function createElement(tag,_options) {
             var options = {
@@ -219,8 +228,11 @@
 
             badge.onclick=doo;
 
-            if(message[i])
+            if(message[i]) {
                 slide.appendChild(badge);
+
+            }
+
 
             SW.appendChild(slide);
 
@@ -266,24 +278,50 @@
         			doo();
     	    }
     	    if (evt.keyCode == 73) { //'i'
-    			console.log(getStatus);
+    			console.log(getStatus());
     	    }
     	};
         function doo() {
 
+
     		var i = swiper.activeIndex;
             var st = getStatus();
 
+
     		if(message[i]){
 
-        		images[i]
-        		.viewport
-        		.panTo(new OpenSeadragon.Point(message[i].x,message[i].y))
-        		.zoomTo(message[i].zoom);
+                    /*var l = document
+                    .getElementsByClassName('comment');
+                    for(var j = 0; j < l.length; j++) {
+                        document.body.removeChild(l[0]);
+                    }*/
 
-        		document
-        		.getElementById("comment")
-        		.setAttribute('data-intro',message[i].desc);
+
+                for(var j = 0; j < message[i].length; j++) {
+
+                    var msg =  message[i][j];
+
+                    if(!document.getElementsByClassName('comment'+j).length) {
+
+                        var e = createElement('a',
+                            {classes:['comment'+j,'comment']});
+                        e.setAttribute('data-intro',msg.desc);
+                        e.setAttribute('data-index',j);
+                        e.setAttribute('onclick',"dismiss()");
+                        document.body.appendChild(e);
+                    } else {
+                        document
+                        .getElementsByClassName("comment"+j)[0]
+                        .setAttribute('data-intro',msg.desc);
+                    }
+                    
+
+            		images[i]
+            		.viewport
+            		.panTo(new OpenSeadragon.Point(msg.x,msg.y))
+            		.zoomTo(msg.zoom);
+
+                }
 
         		introJs()
                 .start()
@@ -293,6 +331,25 @@
                     .viewport
                     .panTo(new OpenSeadragon.Point(st[0],st[1]))
                     .zoomTo(st[2]);
+
+                    for(var j = 0; j < message[i].length; j++) {
+                        document
+                        .body
+                        .removeChild(
+                            document
+                            .getElementsByClassName('comment'+j)[0]);
+                    }
+                })
+                .onchange(function(e) {
+                    //alert();
+                    var j = e.getAttribute('data-index');
+                    var m = message[i][j];
+                    console.log(e.getAttribute('data-index'));
+                    introActive = false;
+                    images[i]
+                    .viewport
+                    .panTo(new OpenSeadragon.Point(m.x,m.y))
+                    .zoomTo(m.zoom);
                 });
 
     		}
