@@ -34,7 +34,7 @@
 			}
 
 			.swiper-container-h > .swiper-wrapper > .swiper-slide {
-				/*width: 100vw;*/
+				width: 100vw;
 			}
 
 			.swiper-slide img {
@@ -155,10 +155,10 @@
         var message = [],
             images = [],
             maxZoom = window.innerWidth < 768? 3 : 2,
-            slideNum = 15,
+            slideNum = 10,
             introActive = false;
 
-        message[2] = [{
+        /*message[2] = [{
             desc:"Contexto Acerca do Homicídio",
             x:0.4250471734349209, y:0.896704514347228,
             zoom: 0.9*maxZoom
@@ -180,7 +180,7 @@
             desc:"Contexto Acerca dos Filhos",
             x:0.30357585536229703, y:0.9234978375952693,
             zoom: 1*maxZoom
-        }];
+        }];*/
 
         function createElement(tag,_options) {
             var options = {
@@ -238,8 +238,8 @@
 
             images.push(OpenSeadragon({
                 navigationControlAnchor: OpenSeadragon.ControlAnchor.ABSOLUTE,
-                tileSources: "content3/"+i+"/GeneratedImages/dzc_output.xml",
-                prefixUrl: "content3/"+i+"/img/",
+                tileSources: "dest/"+i+".dzi",
+                prefixUrl: "img/",
                 id: "seadragon-viewer"+i,
                 autoHideControls: false,
                 maxZoomLevel: maxZoom,
@@ -258,7 +258,6 @@
             pagination: '.swiper-pagination',
             paginationClickable: true,
             mousewheelControl: false,
-            slidesPerView: 'auto',
             grabCursor: true,
             freeMode: false,
             threshold: 30,
